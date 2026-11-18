@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (RGB triplets so Tailwind alpha works) ---------- */
+:root,
+[data-theme='dark'] {
+  --bg: 8 13 28;
+  --surface: 18 26 48;
+  --ink: 232 238 252;
+  --muted: 151 163 189;
+  --line: 255 255 255;
+  --electric: 59 130 246;
+  --cyan: 34 211 238;
+  --violet: 139 92 246;
+  --glass-alpha: 0.05;
+  --line-alpha: 0.1;
+}
+
+[data-theme='light'] {
+  --bg: 244 247 253;
+  --surface: 255 255 255;
+  --ink: 15 23 42;
+  --muted: 82 94 120;
+  --line: 15 23 42;
+  --electric: 37 99 235;
+  --cyan: 8 145 178;
+  --violet: 109 40 217;
+  --glass-alpha: 0.7;
+  --line-alpha: 0.12;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-body text-ink antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    background: rgb(var(--cyan) / 0.3);
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--cyan));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgb(var(--surface) / var(--glass-alpha));
+    border: 1px solid rgb(var(--line) / var(--line-alpha));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .text-gradient {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+  .section {
+    @apply relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 md:py-28;
+  }
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300;
+  }
+  .btn-primary {
+    @apply btn bg-brand-gradient text-white shadow-lg shadow-electric/25 hover:-translate-y-0.5 hover:shadow-electric/40;
+  }
+  .btn-ghost {
+    @apply btn glass text-ink hover:-translate-y-0.5 hover:border-cyan/60;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full border border-cyan/30 bg-cyan/10 px-3 py-1 text-xs font-medium text-cyan;
+  }
+}
+
+/* Hide the native cursor only when the custom one is active (desktop, fine pointer) */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button {
+  cursor: none;
+}
+.has-custom-cursor input,
+.has-custom-cursor textarea {
+  cursor: text;
+}
+
+/* Ambient animated gradient atmosphere, shared by all sections */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient::before,
+.ambient::after {
+  content: '';
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.22;
+  animation: drift 22s ease-in-out infinite;
+}
+.ambient::before {
+  top: -15vmax;
+  left: -10vmax;
+  background: rgb(var(--electric));
+}
+.ambient::after {
+  bottom: -20vmax;
+  right: -12vmax;
+  background: rgb(var(--violet));
+  animation-delay: -9s;
+}
+[data-theme='light'] .ambient::before,
+[data-theme='light'] .ambient::after {
+  opacity: 0.12;
+}
