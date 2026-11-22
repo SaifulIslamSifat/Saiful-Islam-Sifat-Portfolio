@@ -2,32 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Design tokens (RGB triplets so Tailwind alpha works) ---------- */
+/* ---------- Design tokens based on reference system ---------- */
 :root,
 [data-theme='dark'] {
-  --bg: 8 13 28;
-  --surface: 18 26 48;
-  --ink: 232 238 252;
-  --muted: 151 163 189;
-  --line: 255 255 255;
-  --electric: 59 130 246;
-  --cyan: 34 211 238;
-  --violet: 139 92 246;
-  --glass-alpha: 0.05;
-  --line-alpha: 0.1;
+  --bg: 9 13 15;           /* #090d0f */
+  --surface: 16 22 25;      /* #101619 */
+  --surface-hover: 21 29 33;/* #151d21 */
+  --ink: 244 245 242;      /* #f4f5f2 */
+  --muted: 146 155 159;    /* #929b9f */
+  --line: 32 42 49;        /* #202a31 */
+  --accent: 183 243 107;   /* #b7f36b electric lime */
+  --electric: 183 243 107;
+  --cyan: 183 243 107;
+  --violet: 146 155 159;
 }
 
 [data-theme='light'] {
-  --bg: 244 247 253;
+  --bg: 247 248 250;
   --surface: 255 255 255;
+  --surface-hover: 241 243 245;
   --ink: 15 23 42;
-  --muted: 82 94 120;
-  --line: 15 23 42;
-  --electric: 37 99 235;
-  --cyan: 8 145 178;
-  --violet: 109 40 217;
-  --glass-alpha: 0.7;
-  --line-alpha: 0.12;
+  --muted: 100 116 139;
+  --line: 226 232 240;
+  --accent: 85 145 20;
+  --electric: 85 145 20;
+  --cyan: 85 145 20;
+  --violet: 100 116 139;
 }
 
 @layer base {
@@ -35,19 +35,21 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
+    background-color: rgb(var(--bg));
   }
   body {
     @apply bg-bg font-body text-ink antialiased;
     overflow-x: hidden;
   }
   h1, h2, h3, h4 {
-    @apply font-display tracking-tight;
+    @apply font-display tracking-tight text-ink;
   }
   ::selection {
-    background: rgb(var(--cyan) / 0.3);
+    background: #b7f36b;
+    color: #090d0f;
   }
   :focus-visible {
-    outline: 2px solid rgb(var(--cyan));
+    outline: 2px solid #b7f36b;
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -62,75 +64,39 @@
 }
 
 @layer components {
-  .glass {
-    background: rgb(var(--surface) / var(--glass-alpha));
-    border: 1px solid rgb(var(--line) / var(--line-alpha));
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-  .text-gradient {
-    @apply bg-brand-gradient bg-clip-text text-transparent;
-    background-size: 200% auto;
-  }
   .section {
     @apply relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 md:py-28;
   }
+  .card {
+    @apply rounded-2xl border border-line bg-surface p-6 transition duration-300 hover:border-[#283238] hover:bg-surface-hover;
+  }
+  .card-mono {
+    @apply card relative overflow-hidden;
+  }
   .btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-300;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200;
   }
   .btn-primary {
-    @apply btn bg-brand-gradient text-white shadow-lg shadow-electric/25 hover:-translate-y-0.5 hover:shadow-electric/40;
+    @apply btn bg-lime text-[#090d0f] font-semibold hover:brightness-105 shadow-md shadow-lime/10 hover:-translate-y-0.5;
   }
   .btn-ghost {
-    @apply btn glass text-ink hover:-translate-y-0.5 hover:border-cyan/60;
+    @apply btn border border-line bg-surface text-ink hover:bg-surface-hover hover:border-line/90 hover:-translate-y-0.5;
   }
   .chip {
-    @apply inline-flex items-center rounded-full border border-cyan/30 bg-cyan/10 px-3 py-1 text-xs font-medium text-cyan;
+    @apply inline-flex items-center rounded-full border border-line bg-surface/80 px-3 py-1 text-xs font-mono text-muted;
+  }
+  .chip-accent {
+    @apply inline-flex items-center rounded-full border border-lime/40 bg-lime/10 px-3 py-1 text-xs font-mono font-medium text-lime;
+  }
+  .badge-status {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-surface/90 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-muted;
   }
 }
 
-/* Hide the native cursor only when the custom one is active (desktop, fine pointer) */
-.has-custom-cursor,
-.has-custom-cursor a,
-.has-custom-cursor button {
-  cursor: none;
-}
-.has-custom-cursor input,
-.has-custom-cursor textarea {
-  cursor: text;
-}
-
-/* Ambient animated gradient atmosphere, shared by all sections */
-.ambient {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-.ambient::before,
-.ambient::after {
-  content: '';
-  position: absolute;
-  width: 55vmax;
-  height: 55vmax;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.22;
-  animation: drift 22s ease-in-out infinite;
-}
-.ambient::before {
-  top: -15vmax;
-  left: -10vmax;
-  background: rgb(var(--electric));
-}
-.ambient::after {
-  bottom: -20vmax;
-  right: -12vmax;
-  background: rgb(var(--violet));
-  animation-delay: -9s;
-}
-[data-theme='light'] .ambient::before,
-[data-theme='light'] .ambient::after {
-  opacity: 0.12;
+/* Subtle background grid pattern reminiscent of the reference aesthetic */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(32, 42, 49, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(32, 42, 49, 0.25) 1px, transparent 1px);
 }

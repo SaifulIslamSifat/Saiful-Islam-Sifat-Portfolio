@@ -9,35 +9,32 @@ export default {
       colors: {
         bg: token('bg'),
         surface: token('surface'),
+        'surface-hover': token('surface-hover'),
         ink: token('ink'),
         muted: token('muted'),
         line: token('line'),
-        electric: token('electric'),
-        cyan: token('cyan'),
-        violet: token('violet'),
+        accent: token('accent'),
+        lime: '#b7f36b',
+        dark: '#090d0f',
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-      },
-      backgroundImage: {
-        'brand-gradient':
-          'linear-gradient(120deg, rgb(var(--electric)), rgb(var(--cyan)) 50%, rgb(var(--violet)))',
+        mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       keyframes: {
-        drift: {
-          '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
-          '50%': { transform: 'translate3d(4%, -3%, 0) scale(1.08)' },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '100%': { backgroundPosition: '200% 50%' },
+        pulseGlow: {
+          '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+          '50%': { opacity: 0.5, transform: 'scale(1.2)' },
         },
       },
       animation: {
-        drift: 'drift 18s ease-in-out infinite',
-        shimmer: 'shimmer 8s linear infinite',
+        marquee: 'marquee 25s linear infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
       },
     },
   },

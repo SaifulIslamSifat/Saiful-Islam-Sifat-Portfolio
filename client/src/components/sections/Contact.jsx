@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Send, Mail, Phone, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, Mail, Phone, MapPin, CheckCircle2, AlertCircle, ArrowUpRight, Github } from 'lucide-react';
 import { profile } from '../../data/profile';
 import { sendContactMessage } from '../../services/api';
 import SectionHeading from '../ui/SectionHeading';
-import SocialLinks from '../ui/SocialLinks';
 import Reveal from '../ui/Reveal';
 
-const empty = { name: '', email: '', subject: '', message: '', website: '' }; // `website` = honeypot
+const empty = { name: '', email: '', subject: '', message: '', website: '' };
 
 function validate(v) {
   const e = {};
@@ -33,12 +32,11 @@ export default function Contact() {
     setStatus({ type: 'loading', text: '' });
     try {
       await sendContactMessage(values);
-      setStatus({ type: 'success', text: 'Thank you! Your message has been sent.' });
+      setStatus({ type: 'success', text: 'Thank you! Your message has been sent successfully.' });
       setValues(empty);
     } catch (err) {
-      // Server-side field errors (422) are shown next to the matching inputs.
       if (err.errors) setErrors(err.errors);
-      const offline = err instanceof TypeError; // fetch network failure
+      const offline = err instanceof TypeError;
       setStatus({
         type: 'error',
         text: offline ? 'Could not reach the server. Please check your connection and try again.' : err.message,
@@ -46,82 +44,199 @@ export default function Contact() {
     }
   };
 
-  const field = 'w-full rounded-xl border border-line/15 bg-surface/60 px-4 py-3 text-base text-ink placeholder:text-muted/70 focus:border-cyan focus:outline-none';
+  const field =
+    'w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-sm text-ink placeholder:text-muted/60 focus:border-lime focus:outline-none transition';
+
   const { email, phone, location } = profile.contact;
 
   return (
-    <section id="contact" className="section">
-      <SectionHeading
-        eyebrow="08 / Contact"
-        title="Have a Project or an Idea?"
-        subtitle="Let's connect and explore how technology and creativity can turn ideas into meaningful digital experiences."
-      />
-      <div className="grid gap-8 lg:grid-cols-5">
-        <Reveal className="space-y-4 lg:col-span-2">
-          <ul className="space-y-3">
-            {email && (
-              <li className="glass flex items-center gap-3 rounded-2xl p-4"><Mail className="text-cyan" size={20} aria-hidden="true" /><a href={`mailto:${email}`}>{email}</a></li>
-            )}
-            {phone && (
-              <li className="glass flex items-center gap-3 rounded-2xl p-4"><Phone className="text-cyan" size={20} aria-hidden="true" /><a href={`tel:${phone}`}>{phone}</a></li>
-            )}
-            {location && (
-              <li className="glass flex items-center gap-3 rounded-2xl p-4"><MapPin className="text-cyan" size={20} aria-hidden="true" />{location}</li>
-            )}
-          </ul>
-          <SocialLinks />
-        </Reveal>
+    <section id="contact" className="relative border-t border-line/40">
+      
+      {/* Infinite Marquee Banner (signature from reference site) */}
+      <div className="overflow-hidden border-b border-line bg-surface py-5 select-none" aria-hidden="true">
+        <div className="flex w-max animate-marquee gap-8 font-mono text-sm uppercase tracking-widest text-muted">
+          <span>LET'S WORK TOGETHER ✦ AVAILABLE FOR OPPORTUNITIES ✦ TURNING IDEAS INTO CODE ✦ REACH OUT TODAY ✦</span>
+          <span>LET'S WORK TOGETHER ✦ AVAILABLE FOR OPPORTUNITIES ✦ TURNING IDEAS INTO CODE ✦ REACH OUT TODAY ✦</span>
+          <span>LET'S WORK TOGETHER ✦ AVAILABLE FOR OPPORTUNITIES ✦ TURNING IDEAS INTO CODE ✦ REACH OUT TODAY ✦</span>
+        </div>
+      </div>
 
-        <Reveal className="lg:col-span-3">
-          <form onSubmit={onSubmit} noValidate className="glass space-y-4 rounded-3xl p-6 sm:p-8">
-            {[
-              ['name', 'Full Name', 'text', 'name'],
-              ['email', 'Email', 'email', 'email'],
-              ['subject', 'Subject', 'text', 'off'],
-            ].map(([key, label, type, auto]) => (
-              <div key={key}>
-                <label htmlFor={key} className="mb-1.5 block text-sm font-medium">{label}</label>
+      <div className="section">
+        <SectionHeading
+          eyebrow="11 / Contact"
+          title="Let's Start a Conversation"
+          subtitle="Whether you have an upcoming project, a collaborative idea, or a full-time opportunity, feel free to reach out."
+        />
+
+        <div className="grid gap-10 lg:grid-cols-12">
+          {/* Contact Details & Links */}
+          <Reveal className="space-y-6 lg:col-span-5">
+            <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+              <h3 className="font-display text-xl font-bold text-ink">
+                Direct Contact Channels
+              </h3>
+              <p className="mt-2 text-sm text-muted">
+                I typically respond within 24 hours.
+              </p>
+
+              <ul className="mt-6 space-y-4">
+                {email && (
+                  <li>
+                    <a
+                      href={`mailto:${email}`}
+                      className="group flex items-center justify-between rounded-xl border border-line/60 bg-bg p-4 transition hover:border-lime/40"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Mail size={18} className="text-lime" />
+                        <span className="text-sm font-medium text-ink">{email}</span>
+                      </div>
+                      <ArrowUpRight size={16} className="text-muted transition group-hover:text-lime" />
+                    </a>
+                  </li>
+                )}
+
+                {phone && (
+                  <li>
+                    <a
+                      href={`tel:${phone}`}
+                      className="group flex items-center justify-between rounded-xl border border-line/60 bg-bg p-4 transition hover:border-lime/40"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Phone size={18} className="text-lime" />
+                        <span className="text-sm font-medium text-ink">{phone}</span>
+                      </div>
+                      <ArrowUpRight size={16} className="text-muted transition group-hover:text-lime" />
+                    </a>
+                  </li>
+                )}
+
+                {location && (
+                  <li className="flex items-center gap-3 rounded-xl border border-line/60 bg-bg p-4 text-sm text-muted">
+                    <MapPin size={18} className="text-lime shrink-0" />
+                    <span>{location}</span>
+                  </li>
+                )}
+              </ul>
+
+              <div className="mt-6 border-t border-line/60 pt-6">
+                <a
+                  href="https://github.com/SaifulIslamSifat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between rounded-xl border border-line bg-bg p-4 text-sm font-semibold text-ink transition hover:border-lime/40"
+                >
+                  <div className="flex items-center gap-3">
+                    <Github size={18} className="text-lime" />
+                    <span>GitHub Profile</span>
+                  </div>
+                  <ArrowUpRight size={16} className="text-muted" />
+                </a>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Form */}
+          <Reveal className="lg:col-span-7">
+            <form onSubmit={onSubmit} noValidate className="rounded-2xl border border-line bg-surface p-6 sm:p-8 space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="name" className="mb-2 block font-mono text-xs uppercase tracking-wider text-muted">
+                    Full Name *
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="e.g. John Doe"
+                    value={values.name}
+                    onChange={onChange}
+                    className={field}
+                  />
+                  {errors.name && <p className="mt-1 font-mono text-xs text-rose-400">{errors.name}</p>}
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="mb-2 block font-mono text-xs uppercase tracking-wider text-muted">
+                    Email Address *
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="john@example.com"
+                    value={values.email}
+                    onChange={onChange}
+                    className={field}
+                  />
+                  {errors.email && <p className="mt-1 font-mono text-xs text-rose-400">{errors.email}</p>}
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="subject" className="mb-2 block font-mono text-xs uppercase tracking-wider text-muted">
+                  Subject *
+                </label>
                 <input
-                  id={key} name={key} type={type} autoComplete={auto}
-                  value={values[key]} onChange={onChange}
-                  aria-invalid={!!errors[key]} aria-describedby={errors[key] ? `${key}-err` : undefined}
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  placeholder="Project inquiry / Opportunity"
+                  value={values.subject}
+                  onChange={onChange}
                   className={field}
                 />
-                {errors[key] && <p id={`${key}-err`} className="mt-1 text-sm text-red-400">{errors[key]}</p>}
+                {errors.subject && <p className="mt-1 font-mono text-xs text-rose-400">{errors.subject}</p>}
               </div>
-            ))}
-            <div>
-              <label htmlFor="message" className="mb-1.5 block text-sm font-medium">Message</label>
-              <textarea
-                id="message" name="message" rows={5}
-                value={values.message} onChange={onChange}
-                aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-err' : undefined}
-                className={field}
-              />
-              {errors.message && <p id="message-err" className="mt-1 text-sm text-red-400">{errors.message}</p>}
-            </div>
 
-            {/* Honeypot: hidden from people, filled by bots */}
-            <div className="absolute -left-[9999px]" aria-hidden="true">
-              <label htmlFor="website">Website</label>
-              <input id="website" name="website" tabIndex={-1} autoComplete="off" value={values.website} onChange={onChange} />
-            </div>
+              <div>
+                <label htmlFor="message" className="mb-2 block font-mono text-xs uppercase tracking-wider text-muted">
+                  Your Message *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  placeholder="Tell me about your project, timeline, or requirements..."
+                  value={values.message}
+                  onChange={onChange}
+                  className={field}
+                />
+                {errors.message && <p className="mt-1 font-mono text-xs text-rose-400">{errors.message}</p>}
+              </div>
 
-            <button type="submit" disabled={status.type === 'loading'} className="btn-primary w-full disabled:opacity-60 sm:w-auto">
-              <Send size={16} aria-hidden="true" />
-              {status.type === 'loading' ? 'Sending…' : 'Send Message'}
-            </button>
+              {/* Bot Honeypot */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <input id="website" name="website" tabIndex={-1} autoComplete="off" value={values.website} onChange={onChange} />
+              </div>
 
-            <div role="status" aria-live="polite" className="min-h-[1.5rem] text-sm">
-              {status.type === 'success' && (
-                <p className="flex items-center gap-2 text-emerald-400"><CheckCircle2 size={18} aria-hidden="true" />{status.text}</p>
-              )}
-              {status.type === 'error' && (
-                <p className="flex items-center gap-2 text-red-400"><AlertCircle size={18} aria-hidden="true" />{status.text}</p>
-              )}
-            </div>
-          </form>
-        </Reveal>
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={status.type === 'loading'}
+                  className="btn-primary w-full sm:w-auto"
+                >
+                  <Send size={15} />
+                  <span>{status.type === 'loading' ? 'Sending Message…' : 'Send Message'}</span>
+                </button>
+              </div>
+
+              <div role="status" aria-live="polite" className="min-h-[1.5rem] text-sm">
+                {status.type === 'success' && (
+                  <p className="flex items-center gap-2 text-lime font-mono text-xs">
+                    <CheckCircle2 size={16} /> {status.text}
+                  </p>
+                )}
+                {status.type === 'error' && (
+                  <p className="flex items-center gap-2 text-rose-400 font-mono text-xs">
+                    <AlertCircle size={16} /> {status.text}
+                  </p>
+                )}
+              </div>
+            </form>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

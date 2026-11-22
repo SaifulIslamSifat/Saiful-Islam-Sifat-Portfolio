@@ -29,18 +29,17 @@ export const profile = {
   // Fill in ONLY approved public details.
   contact: { email: '', phone: '', location: 'Cox’s Bazar, Bangladesh' },
   socials: [
-    // { label: 'GitHub', href: 'https://github.com/...', icon: 'github' },
+    { label: 'GitHub', href: 'https://github.com/SaifulIslamSifat', icon: 'github' },
   ],
 };
 
 export const navLinks = [
   { id: 'home', label: 'Home' },
+  { id: 'services', label: 'Services' },
+  { id: 'projects', label: 'Work' },
+  { id: 'process', label: 'Process' },
   { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'training', label: 'Training' },
-  { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
-  { id: 'education', label: 'Education' },
-  { id: 'services', label: 'Interests' },
+  { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
 ];
