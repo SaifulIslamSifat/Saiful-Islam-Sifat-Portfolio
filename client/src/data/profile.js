@@ -2,10 +2,10 @@
 // Contact details and social links are intentionally EMPTY until the owner approves what is public.
 
 export const profile = {
-  fullName: 'Saiful Islam Sefat',
+  fullName: 'Saiful Islam Sifat',
   brand: 'SIFAT',
   title: 'CSE Graduate | Technology Enthusiast | Aspiring Full-Stack Developer',
-  greeting: "Hello, I'm Sifat.",
+  greeting: "Hello, I'm Saiful Islam Sifat.",
   intro:
     "I'm a Computer Science and Engineering graduate interested in building digital solutions, exploring modern technologies and solving practical problems through creativity and technology.",
   heroLine:

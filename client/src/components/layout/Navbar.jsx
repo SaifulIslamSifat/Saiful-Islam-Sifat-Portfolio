@@ -26,16 +26,18 @@ export default function Navbar() {
         aria-label="Primary"
         className="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-line bg-surface/80 px-4 py-2.5 backdrop-blur-md shadow-lg shadow-black/20"
       >
-        {/* Brand Monogram */}
+        {/* Brand Monogram & Full Name */}
         <a
           href="#home"
-          className="flex items-center gap-2 font-display text-base font-bold tracking-widest text-ink transition hover:opacity-80"
-          aria-label={`${profile.brand} home`}
+          className="flex items-center gap-2.5 font-display text-base font-bold text-ink transition hover:opacity-85"
+          aria-label={`${profile.fullName} home`}
         >
           <span className="grid h-8 w-8 place-items-center rounded-full bg-lime text-xs font-mono font-bold text-[#090d0f]">
-            SS
+            SIS
           </span>
-          <span className="hidden sm:inline font-mono text-sm tracking-wider">{profile.brand}</span>
+          <span className="font-mono text-xs sm:text-sm tracking-wider font-semibold">
+            {profile.fullName}
+          </span>
         </a>
 
         {/* Desktop Navigation Links */}

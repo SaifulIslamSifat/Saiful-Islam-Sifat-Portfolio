@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Brand & Monogram */}
         <div className="flex items-center gap-3">
           <span className="grid h-8 w-8 place-items-center rounded-full bg-lime text-xs font-mono font-bold text-[#090d0f]">
-            SS
+            SIS
           </span>
           <div>
             <p className="font-display text-sm font-bold tracking-wider text-ink">
